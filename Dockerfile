@@ -1,16 +1,17 @@
-FROM ubuntu:14.04
-MAINTAINER chenna <chenna@outlook.in>
+FROM eboraas/debian:jessie
+MAINTAINER Ed Boraas <ed@boraas.ca>
 
+RUN apt-get update && apt-get -y install apache2 && apt-get clean
 
-RUN apt-get update
-RUN apt-get install -y apache2
-RUN mkdir /var/lock/apache2
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
-ENV APACHE_PID_FILE /var/run/apache2.pid
-ENV APACHE_RUN_DIR /var/run/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
 ENV APACHE_LOG_DIR /var/log/apache2
-ENV LANG C
-CMD [“/usr/sbin/apache2″, “-D”, “FOREGROUND”]
+
+RUN /bin/ln -sf ../sites-available/default-ssl /etc/apache2/sites-enabled/001-default-ssl
+RUN /bin/ln -sf ../mods-available/ssl.conf /etc/apache2/mods-enabled/
+RUN /bin/ln -sf ../mods-available/ssl.load /etc/apache2/mods-enabled/
+
 EXPOSE 80
+EXPOSE 443
+
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
