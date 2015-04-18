@@ -1,5 +1,5 @@
-FROM eboraas/debian:jessie
-MAINTAINER Ed Boraas <ed@boraas.ca>
+FROM ubuntu:14.04
+MAINTAINER chenna <chenna@outlook.in>
 
 RUN apt-get update && apt-get -y install apache2 && apt-get clean
 
