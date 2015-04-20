@@ -1,17 +1,14 @@
-FROM ubuntu:14.04
-MAINTAINER chenna <chenna@outlook.in>
+FROM fedora:20
+MAINTAINER http://fedoraproject.org/wiki/Cloud
 
-RUN apt-get update && apt-get -y install apache2 && apt-get clean
-
-ENV APACHE_RUN_USER www-data
-ENV APACHE_RUN_GROUP www-data
-ENV APACHE_LOG_DIR /var/log/apache2
-
-RUN /bin/ln -sf ../sites-available/default-ssl /etc/apache2/sites-enabled/001-default-ssl
-RUN /bin/ln -sf ../mods-available/ssl.conf /etc/apache2/mods-enabled/
-RUN /bin/ln -sf ../mods-available/ssl.load /etc/apache2/mods-enabled/
+RUN yum -y update && yum clean all
+RUN yum -y install httpd && yum clean all
+RUN echo "Apache" >> /var/www/html/index.html
 
 EXPOSE 80
-EXPOSE 443
 
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# Simple startup script to avoid some issues observed with container restart 
+ADD run-apache.sh /run-apache.sh
+RUN chmod -v +x /run-apache.sh
+
+CMD ["/run-apache.sh"]
