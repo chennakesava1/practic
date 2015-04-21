@@ -1,14 +1,19 @@
 FROM fedora:20
 
+# Update distribution
+RUN yum -y update; yum clean all
 
-RUN yum -y update && yum clean all
-RUN yum -y install httpd && yum clean all
-RUN echo "Apache" >> /var/www/html/index.html
+# Need Apache in simplest way
+RUN yum -y install httpd; yum clean all
+RUN mkdir -p /var/www/html
+RUN mkdir -p /var/log/httpd
 
+# Create Apache test page
+RUN echo "Apache set up successfully." > /var/www/html/index.html
+
+# Copy apache run script
+ADD httpd-run /bin/httpd-run
+
+# Done
 EXPOSE 80
-
-# Simple startup script to avoid some issues observed with container restart 
-ADD run-apache.sh /run-apache.sh
-RUN chmod -v +x /run-apache.sh
-
-CMD ["/run-apache.sh"]
+CMD ["/bin/httpd-run"]
