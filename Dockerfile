@@ -1,19 +1,16 @@
-FROM fedora:20
+FROM ubuntu:14.04
 
-# Update distribution
-RUN yum -y update; yum clean all
+# Installing apache on ubuntu image 
+RUN apt-get update & apt-get install -y apache2
 
-# Need Apache in simplest way
-RUN yum -y install httpd; yum clean all
-RUN mkdir -p /var/www/html
-RUN mkdir -p /var/log/httpd
+
+
 
 # Create Apache test page
-RUN echo "Apache set up successfully." > /var/www/html/index.html
+RUN echo "Apache set up on docker successfully ." > /var/www/html/index.html
 
-# Copy apache run script
-ADD httpd-run /bin/httpd-run
+# Set the defalt port 
+EXPORT 80
+# Start apache application  
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 
-# Done
-EXPOSE 80
-CMD ["/bin/httpd-run"]
