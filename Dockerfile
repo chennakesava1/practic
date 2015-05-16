@@ -11,7 +11,7 @@ RUN apt-get install -y apache2
 RUN echo "Apache set up on docker successfully ." > /var/www/html/index.html
 
 # Set the defalt port 
-EXPORT 80
+EXPOSE 80
 # Start apache application  
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 
