@@ -10,4 +10,3 @@ EXPOSE 80:80
 
 # Start apache application  
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
-
