@@ -1,7 +1,8 @@
 FROM ubuntu:14.04
 
 # Installing apache on ubuntu image 
-RUN apt-get update & apt-get install -y apache2
+RUN apt-get update 
+RUN apt-get install -y apache2
 
 
 
